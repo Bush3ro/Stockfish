@@ -1053,11 +1053,10 @@ Value Search::Worker::search(
         // Do not return unproven mate or TB scores
         if (nullValue >= beta && !is_win(nullValue))
         {
+            ++ss->priorNMPFailHigh;
+
             if (nmpMinPly || depth < 16)
-            {
-                ++ss->priorNMPFailHigh;
                 return nullValue;
-            }
 
             // Recursive verification is not allowed
             assert(!nmpMinPly);
@@ -1071,10 +1070,7 @@ Value Search::Worker::search(
             nmpMinPly = 0;
 
             if (v >= beta)
-            {
-                ++ss->priorNMPFailHigh;
                 return nullValue;
-            }
         }
     }
 
